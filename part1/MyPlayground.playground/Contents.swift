@@ -19,9 +19,12 @@ try mysteryData.write(to: mysteryDataURL)
 
 let savedMysteryData = try Data(contentsOf: mysteryDataURL)
 let savedMysteryBytes = Array(savedMysteryData);
-
+ 
 savedMysteryBytes == mysteryBytes
 mysteryData == savedMysteryData
+
+try mysteryData.write(to: mysteryDataURL.appendingPathExtension("txt"))
+
 
 let challengeString = "jelly"
 let challengeStringURL = URL(
@@ -29,3 +32,9 @@ let challengeStringURL = URL(
     .appendingPathExtension("txt")
 
 challengeStringURL.lastPathComponent
+
+try challengeString.write(to: challengeStringURL, atomically: true, encoding: .utf8)
+
+let challengeStringData = try challengeString.data(using: .utf8)
+try challengeStringData?.write(to: challengeStringURL)
+let savedChallengeString = try String(contentsOf: challengeStringURL)
