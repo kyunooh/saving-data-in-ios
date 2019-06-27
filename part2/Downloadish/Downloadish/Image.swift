@@ -22,17 +22,17 @@ struct Image: Decodable {
         self = try decoder.decode(Image.self, from: data)
         
     }
-    func save(directory: FileManager.SearchPathDirectory) {
+    func save(directory: FileManager.SearchPathDirectory) throws {
         let kindDirectoryURL = URL(
-            fileURLWithPath: kind.rawvalue,
-            relativeTo: FlieManager.default.urls(for: directory, in: .uesrDomainMask)[0]
+            fileURLWithPath: kind.rawValue,
+            relativeTo: FileManager.default.urls(for: directory, in: .userDomainMask)[0]
         )
         
-        try? FileManager.default.createDircetory(at: kindDirectoryURL,
-                                                 withIntermidiateDirectories: true)
+        try? FileManager.default.createDirectory(at: kindDirectoryURL,
+                                                 withIntermediateDirectories: true)
         
         try pngData.write(to: kindDirectoryURL.appendingPathComponent(name).appendingPathExtension("png"),
-        options: .atomic)
+                          options: .atomic)
     }
 }
 
@@ -50,6 +50,3 @@ extension Array where Element == Image {
         
     }
 }
-
-let images = try [Image](fileName: "images")
-images.map { UIImage(data: $0.pngData) }
